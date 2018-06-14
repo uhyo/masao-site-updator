@@ -12,14 +12,14 @@
     </div>
     <script>
       (async ()=> {
-        const files = await fetch('/dist/files.json').then(res => res.json());
+        const res = await fetch('/dist/files.json').then(res => res.json());
 
         const result = document.querySelector('#dyn');
         // Remove contents
         result.textContent = '';
 
         const ul = el('ul');
-        for (const {name, hash, files} of files.branches.filter(x=> x!=null)) {
+        for (const {name, hash, files} of res.branches.filter(x=> x!=null)) {
           const li = el('li');
           const label = el('p');
           p.textContent = `${name} (${hash})`;
