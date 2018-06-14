@@ -22,8 +22,7 @@
         for (const {name, hash, files} of res.branches.filter(x=> x!=null)) {
           const li = el('li');
           const label = el('p');
-          p.textContent = `${name} (${hash})`;
-          label.append(p);
+          label.textContent = `${name} (${hash})`;
           li.append(label);
           const ul2 = el('ul');
           for (const filename of files.filter(x=> x!=null)) {
