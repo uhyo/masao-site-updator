@@ -4,7 +4,7 @@ set -eu
 # emit list of currently available distributions in JSON format.
 
 echo "{
-  branches: ["
+  \"branches\": ["
 
 for dir in dist/output/*; do
   HASH=`cat ${dir}/HASH`

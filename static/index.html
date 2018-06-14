@@ -12,17 +12,21 @@
     </div>
     <script>
       (async ()=> {
-        const files = await fetch('/dist/files.json').then(res => res.json);
+        const files = await fetch('/dist/files.json').then(res => res.json());
 
         const result = document.querySelector('#dyn');
         // Remove contents
         result.textContent = '';
 
         const ul = el('ul');
-        for (const {name, hash, files} of files.branches) {
+        for (const {name, hash, files} of files.branches.filter(x=> x!=null)) {
           const li = el('li');
+          const label = el('p');
+          p.textContent = `${name} (${hash})`;
+          label.append(p);
+          li.append(label);
           const ul2 = el('ul');
-          for (const filename of files) {
+          for (const filename of files.filter(x=> x!=null)) {
             const li2 = el('li');
             const a = el('a');
             a.href = `/dist/output/${name}/${filename}`;
@@ -30,6 +34,7 @@
             li2.append(a);
             ul2.append(li2);
           }
+          li.append(ul2)
 
           ul.append(li);
         }
