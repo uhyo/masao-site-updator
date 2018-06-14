@@ -20,14 +20,18 @@ fi
 # copy the result to dist
 HASH=`git rev-parse "${BRANCH}"`
 cd ..
-mkdir -p dist/${DIST}/
+mkdir -p dist/output/${DIST}/
+echo -n $HASH > dist/output/${DIST}/HASH
+
 for filename in mc_canvas/Outputs/*.js; do
   BN=`basename "${filename}"`
   (echo "/**
   * ${BN}
   * commit hash: ${HASH}
   */";
-  cat "$filename") > dist/${DIST}/${BN}
+  cat "$filename") > dist/output/${DIST}/${BN}
 done
+# update file list.
+./update-filelist.sh > dist/files.json
 echo "done"
 date
