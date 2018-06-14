@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>ビルド済canvas正男配布所（非公式）</title>
+  </head>
+  <body>
+    <h1>ビルド済canvas正男配布所（非公式）</h1>
+    <p>このページは、最新のcanvas正男を配布するページです。</p>
+    <h2>配布物一覧</h2>
+    <div id="dyn">
+      <p>読み込み中…</p>
+    </div>
+    <script>
+      (async ()=> {
+        const files = await fetch('/dist/files.json').then(res => res.json);
+
+        const result = document.querySelector('#dyn');
+        // Remove contents
+        result.textContent = '';
+
+        const ul = el('ul');
+        for (const {name, hash, files} of files.branches) {
+          const li = el('li');
+          const ul2 = el('ul');
+          for (const filename of files) {
+            const li2 = el('li');
+            const a = el('a');
+            a.href = `/dist/output/${name}/${filename}`;
+            a.textContent = filename;
+            li2.append(a);
+            ul2.append(li2);
+          }
+
+          ul.append(li);
+        }
+        result.append(ul);
+
+
+        // shorthand for document.createelement
+        function el(name) {
+          return document.createElement(name);
+        }
+      })()
+      .catch(err=> {
+        console.error(err);
+      });
+    </script>
+  </body>
+</html>
+

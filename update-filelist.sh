@@ -9,6 +9,7 @@ echo "{
 for dir in dist/output/*; do
   HASH=`cat ${dir}/HASH`
   echo "    {
+      \"name\": \"$(basename "${dir}")\",
       \"hash\": \"${HASH}\",
       \"files\": ["
   for file in ${dir}/*.js; do
