@@ -11,6 +11,7 @@ for dir in dist/output/*; do
   echo "    {
       \"name\": \"$(basename "${dir}")\",
       \"hash\": \"${HASH}\",
+      \"last-update\": $(stat -c "%Y" ${dir}/HASH),
       \"files\": ["
   for file in ${dir}/*.js; do
     echo "        \"$(basename "${file}")\","
