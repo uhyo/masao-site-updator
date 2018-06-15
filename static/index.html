@@ -20,7 +20,8 @@
         result.textContent = '';
 
         const ul = el('ul');
-        for (const {name, hash, files} of res.branches.filter(x=> x!=null)) {
+        const branches = res.branches.filter(x=> x!=null).sort((a, b)=> b['last-update'] - a['last-update']);
+        for (const {name, hash, files} of branches) {
           const li = el('li');
           const label = el('p');
           label.textContent = `${name} (${hash})`;
