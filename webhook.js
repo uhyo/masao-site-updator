@@ -23,6 +23,10 @@ if (process.env.DIGEST !== secureDigest(payload)) {
 
 // Check whether this is a push to a branch.
 const { ref } = payload;
+if (ref == null) {
+    // ping?
+    process.exit(0);
+}
 const r = ref.match(/^refs\/heads\/(.+)$/);
 if (r == null) {
     // Exit normally.
