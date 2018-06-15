@@ -13,23 +13,25 @@ const crypto = require('crypto');
 
 // Read all inputs from stdin.
 const input = fs.readFileSync('/dev/stdin', 'utf8');
-const payload = JSON.parse(input);
+const payload = input ? JSON.parse(input) : {};
 
 // Check correspondence of digest.
-if (process.env.DIGEST !== secureDigest(payload)) {
-    console.error('payload mismatch');
-    process.exit(1);
+if (process.env.DIGEST !== secureDigest(input)) {
+    writeResponse('Digest mismatch');
+    process.exit(0);
 }
 
 // Check whether this is a push to a branch.
 const { ref } = payload;
 if (ref == null) {
     // ping?
+    writeResponse('Successfully handled ping?');
     process.exit(0);
 }
 const r = ref.match(/^refs\/heads\/(.+)$/);
 if (r == null) {
     // Exit normally.
+    writeResponse('Nothing to do');
     process.exit(0);
 }
 
@@ -46,15 +48,29 @@ child_process.execFileSync(
     },
 );
 
+writeResponse('Successfully handled webhook');
+
 /**
  * Make hmac digest.
  */
-function secureDigest(payload) {
+function secureDigest(input) {
     // Secret token which should be sent from GitHub.
     const SECRET = process.env.SECRET;
 
     const hmac = crypto.createHmac('sha1', SECRET);
-    hmac.update(payload);
+    hmac.update(input);
     return 'sha1=' + hmac.digest('hex');
+}
+
+
+/**
+ * Write a text seponse.
+ */
+function writeResponse(text) {
+  process.stdout.write(`Content-Type: text/plain; charset=utf-8
+Content-Length: ${text.length}
+
+${text}
+`);
 }
 
