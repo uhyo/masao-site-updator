@@ -6,7 +6,7 @@ set -eu
 echo "{
   \"branches\": ["
 
-for dir in dist/output/*; do
+for dir in public/dist/output/*; do
   HASH=`cat ${dir}/HASH`
   echo "    {
       \"name\": \"$(basename "${dir}")\",
