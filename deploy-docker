@@ -1,0 +1,4 @@
+docker build -t masao-site-updator .
+docker tag masao-site-updator uhyo/masao-site-updator:latest
+docker push uhyo/masao-site-updator:latest
+
